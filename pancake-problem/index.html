@@ -6,8 +6,19 @@
     <link rel = "stylesheet" href = "./main.css"/>
   </head>
   <body>
-    This are stacks or pancakes.  Can't you tell?
-    <input type = "number" placeholder="Stack Size" onchange = "testFunction()">
+    <p>These are stacks of pancakes.  Can't you tell?</p>
+    <div class = "container">
+      <div class = "col">
+        <input id = "nInput" type = "number" placeholder="Stack Size" >
+        <br>Gravity:<input id = "gravity" type = "number" step = ".1">
+        <br>Link Strength:<input id = "linkStrength" type = "number" step = ".1">
+      </div>
+      <div class = "col">
+        <br>Charge:<input id = "charge" type = "number" step = "10">
+        <br>Same Color Length:<input id = "sameLength" type = "number" step = "10">
+        <br>Different Color Length:<input id = "diffLength" type = "number" step = "10">
+      </div>
+    </div>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.js"></script>
     <script src = "./app.js"> </script>
