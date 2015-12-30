@@ -1,0 +1,49 @@
+
+
+.node {
+  fill: #000;
+}
+
+.cursor {
+  fill: none;
+  stroke: brown;
+  pointer-events: none;
+}
+
+.link {
+  stroke: #999;
+}
+
+.fixed {
+  position: absolute;
+  z-index: 2000;
+}
+
+svg{
+  border:1px solid black;
+}
+
+#chartSvg {
+  position:relative;
+  width:99vw;
+  height:99vh;
+  margin: 0 auto;
+  background-color: mintcream;
+  z-index: 1;
+}
+
+#chartSvg image{
+  position: absolute;
+  border-radius: 50%;
+  max-width: 80px;
+  max-height: 80px;
+  z-index: 100;
+}
+
+body,html{
+  margin: 0;
+  padding: 0;
+  z-index: -1;
+  height: 100%;
+  width:100%;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>May the Force be ever in your favor.</title>
+    <link rel = "stylesheet" href = "./main.css"/>
+  </head>
+  <body>
+    <div class = "fixed">
+      Gotta Graph Em All <input id = "pokemonId" placeholder="Pokemon Id" type = "number">
+      <select id = "xStat">
+        <option value = "attack">Attack</option>
+        <option value = "defense">Defense</option>
+        <option value = "sp_atk">Magic Attack</option>
+        <option value = "sp_def">Magic Defense</option>
+        <option value = "speed">Speed</option>
+        <option value = "exp">Exp</option>
+        <option value = "hp">Hit Points</option>
+        <option value = "pkdx_id">Pokedex Index</option>
+      </select>
+      <select id = "yStat">
+        <option value = "attack">Attack</option>
+        <option value = "defense">Defense</option>
+        <option value = "sp_atk" selected="true">Magic Attack</option>
+        <option value = "sp_def">Magic Defense</option>
+        <option value = "speed">Speed</option>
+        <option value = "exp">Exp</option>
+        <option value = "hp">Hit Points</option>
+        <option value = "pkdx_id">Pokedex Index</option>
+      </select>
+    </div>
+    <svg id = "chartSvg">
+
+    </svg>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.js"></script>
+    <script src = "./app.js"> </script>
+  </body>
+</html>
