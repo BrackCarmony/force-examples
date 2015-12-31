@@ -2,8 +2,8 @@
 var pokemons = [];
 var baseUri = "http://pokeapi.co";
 
-var xStat = "attack";
-var yStat = "sp_atk";
+var xStat = "pkdx_id";
+var yStat = "pkdx_id";
 
 var maxYStat = 0;
 var minYStat = 999*999*999;
@@ -15,7 +15,7 @@ var d3Div = d3.select("#chartSvg");
 force = d3.layout.force()
           .size([d3Div[0][0].clientWidth, d3Div[0][0].clientHeight])
           .nodes(pokemons)
-          .charge(-150)
+          .charge(-100)
           .on("tick", tick);
 
 function getPokemon(id){
@@ -108,23 +108,27 @@ function tick(e){
     // console.log(e, item);
     // console.log("_----------------------");
     // console.log(item.x);
-    var k =.3;
-    item.x += ((item[xStat]-minXStat+1)/(maxXStat-minXStat+1)*d3Div[0][0].clientWidth - item.x)*e.alpha*k;
-    item.y += ((item[yStat]-minYStat-1)/(maxYStat-minYStat+1)*d3Div[0][0].clientHeight - item.y)*e.alpha*k;
+    var k =.5;
+    item.x += ((item[xStat]-minXStat)/(maxXStat-minXStat)*(d3Div[0][0].clientWidth) - item.x)*e.alpha*k;
+    item.y += ((item[yStat]-minYStat)/(maxYStat-minYStat)*(d3Div[0][0].clientHeight) - item.y)*e.alpha*k;
     // console.log(item.x);
   })
 
   pokemons.forEach(function(item){
-    item.x = Math.max(1,item.x);
-    item.y = Math.max(35,item.y);
-    item.x = Math.min(d3Div[0][0].clientWidth-50,item.x);
-    item.y = Math.min(d3Div[0][0].clientHeight,item.y);
+    item.x = Math.max((item.x)/2,item.x);
+    item.y = Math.max((35+item.y)/2,item.y);
+    item.x = Math.min((d3Div[0][0].clientWidth-35+item.x)/2,item.x);
+    item.y = Math.min((d3Div[0][0].clientHeight + item.y)/2,item.y);
   })
 
-  pokemonImgs.style("x",function(d){return d.x +"px";})
-  .style("y",function(d){return d3Div[0][0].clientHeight - d.y +"px";});
+  pokemonImgs.style("x",function(d){return d.x +25 + "px";})
+  .style("y",function(d){return d3Div[0][0].clientHeight - d.y -25 +"px";});
 }
 
+for (var i=1;i<=500;i++){
+  var poke = 0;
+  setTimeout(function(){getPokemon(++poke)}, 100*i)
+}
 
 document.getElementById('pokemonId').addEventListener('change', function(e){
   getPokemon(e.srcElement.value*1);
