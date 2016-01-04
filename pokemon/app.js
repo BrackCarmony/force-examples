@@ -2,8 +2,12 @@
 var pokemons = [];
 var baseUri = "http://pokeapi.co";
 
-var xStat = "pkdx_id";
-var yStat = "pkdx_id";
+var startRange =1;
+var endRagne =721;
+var imgSize = 40;
+
+var xStat = "attack";
+var yStat = "sp_atk";
 
 var maxYStat = 0;
 var minYStat = 999*999*999;
@@ -15,7 +19,7 @@ var d3Div = d3.select("#chartSvg");
 force = d3.layout.force()
           .size([d3Div[0][0].clientWidth, d3Div[0][0].clientHeight])
           .nodes(pokemons)
-          .charge(-100)
+          .charge(-50)
           .on("tick", tick);
 
 function getPokemon(id){
@@ -70,11 +74,12 @@ function updateChart(){
   .attr("xlink:href",function(d){
     return baseUri + d.spriteObjects.image;
   })
-  .attr('width', 50)
-  .attr('height', 50)
+  .attr('width', imgSize)
+  .attr('height', imgSize)
   .style("x",function(d){return d[xStat]*4 +"px";})
   .style("y",function(d){return d[yStat]*4 +"px";})
-  .call(force.drag);
+  .on('load', loadNext);
+  //.call(force.drag);
 
 
   setStatSort();
@@ -87,10 +92,10 @@ function setStatSort(){
   var yStats = _.pluck(pokemons, yStat);
   console.log(pokemons);
 
-   maxYStat = _.max(yStats);
-   minYStat = _.min(yStats);
-   maxXStat = _.max(xStats);
-   minXStat = _.min(xStats);
+   maxYStat = _.max(yStats)*1.1;
+   minYStat = _.min(yStats)*.9;
+   maxXStat = _.max(xStats)*1.1;
+   minXStat = _.min(xStats)*.9;
 
   console.log(minXStat, xStats);
   console.log(minYStat, yStats);
@@ -103,7 +108,8 @@ function startPhysics(){
 
 function tick(e){
   //console.log("Tick runninng... I be confused");
-
+  // _.sort(pokemons, function(a, b){return a.y-b.y});
+  // console.log(pokemons);
   pokemons.forEach(function(item){
     // console.log(e, item);
     // console.log("_----------------------");
@@ -116,8 +122,8 @@ function tick(e){
 
   pokemons.forEach(function(item){
     item.x = Math.max((item.x)/2,item.x);
-    item.y = Math.max((35+item.y)/2,item.y);
-    item.x = Math.min((d3Div[0][0].clientWidth-35+item.x)/2,item.x);
+    item.y = Math.max((item.y)/2,item.y);
+    item.x = Math.min((d3Div[0][0].clientWidth+item.x)/2,item.x);
     item.y = Math.min((d3Div[0][0].clientHeight + item.y)/2,item.y);
   })
 
@@ -125,10 +131,10 @@ function tick(e){
   .style("y",function(d){return d3Div[0][0].clientHeight - d.y -25 +"px";});
 }
 
-for (var i=1;i<=500;i++){
-  var poke = 0;
-  setTimeout(function(){getPokemon(++poke)}, 100*i)
-}
+// for (var i=1;i<=150;i++){
+//   var poke = 0;
+//   setTimeout(function(){getPokemon(++poke)}, 100*i)
+//}
 
 document.getElementById('pokemonId').addEventListener('change', function(e){
   getPokemon(e.srcElement.value*1);
@@ -144,3 +150,14 @@ document.getElementById('yStat').addEventListener('change', function(e){
   setStatSort();
   force.resume();
 });
+
+function makeLoader(){
+  var cur = startRange;
+  return function(){
+    if (cur <=endRagne) getPokemon(cur++);
+  }
+}
+
+var loadNext = makeLoader();
+
+loadNext();
