@@ -4,14 +4,14 @@ var width = 960;
 var height = 500;
 
 var fill = d3.scale.category10();
-var nodes = d3.range(300).map(function(i){
+var nodes = d3.range(700).map(function(i){
   return {index:i};
 })
 
 var force = d3.layout.force()
             .nodes(nodes)
             .size([width, height])
-            .linkDistance(100)
+            .linkDistance(function(d){return d.linkLength})
             .on("tick",tick)
             .start();
 
@@ -64,7 +64,7 @@ function mousedown(){
     x = Math.floor(nodes.length*Math.random());
     y = Math.floor(nodes.length*Math.random());
   }while (x==y)
-  links.push({source:nodes[x],target:nodes[y]});
+  links.push({source:nodes[x],target:nodes[y], linkLength:Math.random()*100+5});
 
   restart();
 }
@@ -79,10 +79,15 @@ function restart(){
 }
 
 window.addEventListener('wheel', function(e){
-  console.log(e);
 
-  var ld = force.linkDistance() + (e.deltaY>0?5:-5);
-  console.log(ld);
-  force.linkDistance(ld);
+  if (e.deltaY>0){
+    links.forEach(function(item){
+      item.linkLength *=0.98;
+    })
+  }else{
+    links.forEach(function(item){
+      item.linkLength *=1/0.98;
+    })
+  }
   force.start();
 })
