@@ -13,7 +13,7 @@ console.log(numNodes);
 numNodes+=50;
 var modColor = 5;
 
-var fill = d3.scale.category20();
+var fill = d3.scale.category20c();
 var nodes = d3.range(numNodes).map(function(i){
   return {index:i};
 })
